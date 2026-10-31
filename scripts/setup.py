@@ -13,8 +13,9 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parent.parent
-PARTS = ('preferences', 'rules', 'ponytail', 'moshi', 'herdr')
+PARTS = ('preferences', 'instructions', 'rules', 'ponytail', 'moshi', 'herdr')
 RULE = Path('rules/context7.md')
+INSTRUCTION_FILES = {'instructions': Path('CLAUDE.md'), 'rules': RULE}
 
 
 def load_json(path):
@@ -145,8 +146,7 @@ def preflight(target, parts):
 
 def backup(target, parts):
     paths = [Path('settings.json')]
-    if 'rules' in parts:
-        paths.append(RULE)
+    paths.extend(relative for part, relative in INSTRUCTION_FILES.items() if part in parts)
     if 'moshi' in parts:
         paths.append(Path('moshi-plugin'))
     if 'herdr' in parts:
@@ -178,6 +178,8 @@ def plan(target, parts):
                 print(f'  Set {".".join(path)} = {get(wanted, path)[1]!r}')
         if wanted.get('skipDangerousModePermissionPrompt'):
             print('  WARNING: personal baseline skips the dangerous-mode confirmation prompt.')
+    if 'instructions' in parts:
+        print(f'  Install personal instructions: {target / "CLAUDE.md"}')
     if 'rules' in parts:
         print(f'  Install standalone Context7 rule: {target / RULE} (requires Node.js/npx)')
     if 'ponytail' in parts:
@@ -198,7 +200,10 @@ def apply(target, parts):
     preflight(target, parts)
     # Validate JSON and nested settings before creating backups or invoking installers.
     desired_settings(load_json(target / 'settings.json'), parts)
-    for relative in [Path('settings.json')] + ([RULE] if 'rules' in parts else []):
+    files = [relative for part, relative in INSTRUCTION_FILES.items() if part in parts]
+    # Read all sources before mutation, so a missing source cannot partially apply.
+    contents = {relative: (ROOT / 'config' / relative).read_text() for relative in files}
+    for relative in [Path('settings.json')] + files:
         path = target / relative
         if path.is_symlink() or path.parent.is_symlink():
             raise ValueError(f'Refusing managed symlink: {path}')
@@ -219,10 +224,9 @@ def apply(target, parts):
     wanted = desired_settings(current, parts)
     if wanted != current:
         save(target / 'settings.json', json_text(wanted))
-    if 'rules' in parts:
-        content = (ROOT / 'config' / RULE).read_text()
-        if not (target / RULE).exists() or (target / RULE).read_text() != content:
-            save(target / RULE, content)
+    for relative, content in contents.items():
+        if not (target / relative).exists() or (target / relative).read_text() != content:
+            save(target / relative, content)
     print('Applied. Run check, then complete the integration README runtime checks.')
 
 
@@ -241,6 +245,10 @@ def check(target, parts):
     settings = load_json(target / 'settings.json')
     if 'preferences' in parts:
         report(selected_preferences(settings) == load_json(ROOT / 'config/settings.json'), 'owned preferences match')
+    if 'instructions' in parts:
+        path = target / 'CLAUDE.md'
+        report(path.is_file() and path.read_bytes() == (ROOT / 'config/CLAUDE.md').read_bytes(),
+               'personal CLAUDE.md matches')
     if 'rules' in parts:
         report((target / RULE).is_file() and (target / RULE).read_bytes() == (ROOT / 'config' / RULE).read_bytes(), 'Context7 rule matches')
         report(shutil.which('npx') is not None, 'npx is available for Context7')
@@ -277,19 +285,20 @@ def check(target, parts):
 
 
 def capture(target, parts):
-    if set(parts) - {'preferences', 'rules'}:
-        raise ValueError('Capture supports only preferences,rules; never exports app-generated integrations.')
+    if set(parts) - {'preferences', 'instructions', 'rules'}:
+        raise ValueError('Capture supports only preferences,instructions,rules; never exports app-generated integrations.')
     outputs = []
     if 'preferences' in parts:
         source = selected_preferences(load_json(target / 'settings.json'))
         if not source:
             raise ValueError('No owned preferences found to capture')
         outputs.append((ROOT / 'config/settings.json', json_text(source)))
-    if 'rules' in parts:
-        outputs.append((ROOT / 'config' / RULE, (target / RULE).read_text()))
+    for part, relative in INSTRUCTION_FILES.items():
+        if part in parts:
+            outputs.append((ROOT / 'config' / relative, (target / relative).read_text()))
     for path, content in outputs:
         save(path, content)
-        print(f'Captured {path.relative_to(ROOT)}. Review before committing; rules may contain personal text.')
+        print(f'Captured {path.relative_to(ROOT)}. Review before committing; instructions may contain personal text.')
 
 
 def main():
@@ -299,7 +308,7 @@ def main():
     parser.add_argument('--config-dir', type=Path, default=Path.home() / '.claude',
                         help='Explicit personal target; defaults to ~/.claude, not CLAUDE_CONFIG_DIR')
     args = parser.parse_args()
-    parts = args.only.split(',') if args.only else list(('preferences', 'rules') if args.action == 'capture' else PARTS)
+    parts = args.only.split(',') if args.only else list(('preferences', 'instructions', 'rules') if args.action == 'capture' else PARTS)
     if not parts or any(part not in PARTS for part in parts) or len(parts) != len(set(parts)):
         parser.error('--only must contain unique supported component names')
     target = args.config_dir.expanduser().absolute()

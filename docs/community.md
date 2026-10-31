@@ -21,8 +21,8 @@ claude plugin install ponytail@claude-setup
 The baseline installer uses Ponytail's upstream marketplace identity. `ponytail@claude-setup` is a separate Claude Code installation identity even though it points to the same upstream project. Installing both can load duplicate behavior. Choose one route, inspect existing installations first, and do not run the baseline's Ponytail component after choosing the catalog route. You can still install the remaining baseline components explicitly:
 
 ```bash
-bash scripts/setup.sh plan --only preferences,rules,moshi,herdr
-bash scripts/setup.sh apply --only preferences,rules,moshi,herdr
+bash scripts/setup.sh plan --only preferences,instructions,rules,moshi,herdr
+bash scripts/setup.sh apply --only preferences,instructions,rules,moshi,herdr
 ```
 
 Catalog installation does not install the full baseline, configure Moshi or Herdr, or apply personal preferences. Review third-party code before installing: plugin hooks execute with your account's permissions. A commit pin improves reproducibility; it is not a security audit or a promise that upstream will retain that commit forever.

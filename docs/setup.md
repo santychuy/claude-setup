@@ -4,7 +4,7 @@ Run commands from the cloned repository root with `bash scripts/setup.sh`. The s
 
 ```text
 bash scripts/setup.sh plan|apply|check|capture \
-  [--only preferences,rules,ponytail,moshi,herdr] \
+  [--only preferences,instructions,rules,ponytail,moshi,herdr] \
   [--config-dir PATH]
 ```
 
@@ -13,11 +13,11 @@ bash scripts/setup.sh plan|apply|check|capture \
 | Command | Purpose | Changes |
 | --- | --- | --- |
 | `plan` | Show the selected configuration changes and integration prerequisites. | No target changes. |
-| `apply` | Apply the selected baseline after checking prerequisites. | Backs up affected existing files, merges owned settings, writes the owned rule, and configures selected integrations. |
+| `apply` | Apply the selected baseline after checking prerequisites. | Backs up affected existing files, merges owned settings, writes selected instructions/rules, and configures selected integrations. |
 | `check` | Detect missing/mismatched owned configuration and selected setup prerequisites. | No repair. Exit `0` means setup checks are satisfied; exit `1` means missing/mismatched state. Functional checks remain manual. |
-| `capture` | Export reviewed portable preferences and the Context7 rule from a target back to repository inputs. | Updates `config/` only for the allowed preferences/rules scope. Never exports integration state or whole-profile snapshots. |
+| `capture` | Export declared preferences, personal instructions, and the Context7 rule back to repository inputs. | Updates selected files in `config/`. Never exports integration state or whole-profile snapshots. |
 
-`plan`, `apply`, and `check` select all five components by default. `capture` defaults to `preferences,rules` and rejects integration components. Supply a comma-separated `--only` selection for a smaller scope.
+`plan`, `apply`, and `check` select all components by default. `capture` defaults to `preferences,instructions,rules` and rejects integration components. Supply a comma-separated `--only` selection for a smaller scope. The `instructions` component installs `config/CLAUDE.md` as the target's global `CLAUDE.md`; it is separate from the repository's maintainer instructions.
 
 ## Targets and profile safety
 
@@ -36,7 +36,7 @@ Installed targets and private backups must live outside this public checkout; ta
 
 ## Before applying
 
-1. Inspect `config/settings.json` and `config/rules/context7.md`. These are opinionated personal defaults, not universally safe or suitable settings.
+1. Inspect `config/settings.json`, `config/CLAUDE.md`, and `config/rules/context7.md`. These are opinionated personal defaults.
 2. Read the selected integration's upstream requirements in [integration notes](integrations.md). Install required tools using the linked, verified upstream instructions. Installation may need network access or explicit OS approval.
 3. Run `plan` with the exact selection and target you intend to apply. Missing selected prerequisites cause `apply` to fail preflight; previewing is not a prerequisite installation.
 4. Check that you have not already installed Ponytail by the other marketplace route.
@@ -46,7 +46,7 @@ Node.js/npm are needed for the Context7 rule's `npx ctx7@latest` commands at use
 
 ## Ownership and preservation
 
-The installer owns only the preferences represented by the reviewed settings source, the Context7 rule, and the selected integration configuration. Existing unrelated JSON settings and hooks remain intact. Reapplying must not duplicate owned configuration. Affected existing files are backed up under the target's `backups/claude-setup/<UTC-unique>/` directory before replacement or merge, including on repeated applies; keep those backups private.
+The installer owns only the preferences represented by the reviewed settings source, the personal `CLAUDE.md`, the Context7 rule, and selected integration configuration. Existing unrelated JSON settings and hooks remain intact. Selecting `instructions` replaces the target's entire `CLAUDE.md`, with a private backup of any existing file. Affected existing files are backed up under `backups/claude-setup/<UTC-unique>/`, including on repeated applies.
 
 A successful setup does not authenticate Claude Code, grant model access, pair devices, establish app delivery, create a running Herdr session, or establish that any hook executes. The [verification guide](verification.md) separates these concerns.
 

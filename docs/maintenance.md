@@ -6,11 +6,13 @@ The repository is a reviewed portable baseline, not a backup of a Claude home di
 
 Edit or add preferences directly in `config/settings.json`, or edit the Context7 policy in `config/rules/context7.md`. The settings file defines the managed preference fields; no Python allowlist needs updating. Nested objects are merged by their declared leaf fields, preserving undeclared siblings. Arrays and explicitly empty objects are managed as whole values. Removing a field stops managing it; it does not delete the installed value. Review the change and use `plan` before applying it.
 
+Edit `config/CLAUDE.md` for general workflow instructions. Use `--only instructions` with `plan`, `apply`, `check`, or `capture`. Applying replaces the installed personal instruction file after backing it up.
+
 For integration changes, inspect the linked upstream documentation and current commands before changing a recipe. Do not turn a known unsupported platform or profile-routing limitation into a silent fallback. Update the recipe and user-facing caveats together.
 
 ## Capture intentional personal changes
 
-Capture reads only preference fields already declared in `config/settings.json` and the Context7 rule; it is **not** a full profile export. Add a preference to the repository settings first if you want to capture its local value. Its default selection is `preferences,rules`, and integration capture is rejected. The output updates `config/settings.json` and `config/rules/context7.md` for the selected components.
+Capture reads only preference fields declared in `config/settings.json`, personal instructions from the target's `CLAUDE.md`, and the Context7 rule; it is **not** a full profile export. Add a preference to the repository settings first if you want to capture its local value. The default selection is `preferences,instructions,rules`; integration capture is rejected. Outputs update the corresponding files in `config/`.
 
 From the repository root, explicitly select the intended personal source if it is not the default:
 

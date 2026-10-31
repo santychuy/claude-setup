@@ -12,6 +12,7 @@ Maintain a portable Claude Code setup and a community plugin/mod catalog. This f
 
 ## Working rules
 
+- Always consult the current [official Claude Code documentation](https://code.claude.com/docs) when answering questions, planning changes, implementing features, or troubleshooting this setup; verify behavior against the docs rather than relying on memory.
 - Keep baseline configuration and optional plugins independently usable. Shared skill collections live outside this repository.
 - Preserve unrelated user configuration. Preview changes without mutation, back up affected files before applying, and avoid duplicate configuration.
 - Capture only explicitly owned settings and rules, never entire profiles.

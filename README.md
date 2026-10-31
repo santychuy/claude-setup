@@ -4,7 +4,7 @@ My portable [Claude Code](https://code.claude.com/docs) setup and a catalog of p
 
 ## Quick start
 
-The full setup includes personal preferences, a Context7 documentation rule, Ponytail, Moshi, and Herdr. Currently macOS-first.
+The full setup includes personal preferences and instructions, a Context7 documentation rule, Ponytail, Moshi, and Herdr. Currently macOS-first.
 
 Install Git, Bash, Python 3, Claude Code, and Node.js/npm. Follow the [integration prerequisites](docs/integrations.md) for Moshi and Herdr.
 
@@ -28,7 +28,8 @@ Use `--only` with any combination:
 
 | Component | Includes |
 | --- | --- |
-| `preferences` | Opus, high effort for the configured model, dark theme, fullscreen UI, and the warning-prompt preference |
+| `preferences` | Model, appearance, attribution, and the built-in Concise output style |
+| `instructions` | General workflow guidance from [config/CLAUDE.md](config/CLAUDE.md), installed as `~/.claude/CLAUDE.md` |
 | `rules` | Context7: consult current documentation instead of relying on remembered APIs |
 | `ponytail` | Simplicity-first coding guidance |
 | `moshi` | Claude notifications, approvals, and Chat View integration |

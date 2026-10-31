@@ -16,12 +16,12 @@ bash scripts/setup.sh check --only preferences,rules --config-dir "$TARGET"
 At this public CLI boundary, confirm these independent behaviors:
 
 - `plan` makes no target changes and describes the selected scope.
-- `apply` writes the owned preferences and Context7 rule to that target only.
+- `apply` writes selected preferences, personal `CLAUDE.md`, and the Context7 rule to that target only.
 - Existing unrelated settings and hooks survive an apply. Seed them deliberately before applying; do not use private real-profile fixtures.
 - Repeating an apply leaves equivalent configuration and does not duplicate owned hooks/settings.
 - Changing an owned preference causes `check` to report a mismatch and return `1`; matching setup returns `0`.
 - An existing changed file has a recoverable backup under the target's private `backups/claude-setup/` directory.
-- Capture exports only allowlisted preferences/the Context7 rule and rejects integration capture. Because capture changes repository inputs, exercise it in a disposable checkout, not the checkout holding uncommitted baseline edits.
+- Capture exports only declared preferences and selected instruction/rule files, and rejects integration capture. Because capture changes repository inputs, exercise it in a disposable checkout.
 
 Do not point an automated check at the real protected work profile. Its refusal should be exercised only with an isolated home/profile fixture; a separate target is not permission to inspect a user's work configuration.
 
@@ -40,6 +40,7 @@ Perform these only in a deliberately chosen personal test environment after prer
 | Component | Exercise the actual behavior | What counts as evidence |
 | --- | --- | --- |
 | Preferences | Start a fresh Claude session using the selected profile and inspect the effective model/UI preferences. | Supported settings are reflected in the live session; unsupported model access or version limitations are reported. |
+| Personal instructions | Start a fresh Claude session and inspect `/context`. | The target's `CLAUDE.md` appears in loaded memory files; exercise its guidance in a real conversation. |
 | Context7 rule | Ask a technology-specific question that requires current documentation. | Claude resolves the library with `npx ctx7@latest library`, fetches relevant docs, and grounds its answer in the retrieved material. File presence alone does not count. |
 | Ponytail | Start a fresh session with exactly one Ponytail identity enabled and use an upstream-supported command/interaction. | The plugin loads without hook/runtime errors and the documented upstream behavior is observed. Do not infer success merely from an `enabledPlugins` entry. |
 | Moshi | Complete upstream app/device pairing, then exercise a documented lifecycle/permission event and the Chat View integration from a real Claude session. | The intended paired app receives/displays the actual event and the selected Chat View workflow is observed. An executable or installed hook is not delivery evidence. |
