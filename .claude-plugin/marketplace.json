@@ -1,0 +1,28 @@
+{
+  "name": "claude-setup",
+  "description": "Santychuy's curated third-party Claude Code catalog; independent of the personal baseline installer.",
+  "owner": {
+    "name": "Santychuy",
+    "url": "https://github.com/santychuy"
+  },
+  "plugins": [
+    {
+      "name": "ponytail",
+      "description": "Third-party Ponytail by Dietrich Gebert: simplicity-first coding guidance and task feedback. Curated upstream reference, not authored here.",
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail",
+        "sha": "16352ac229eb08a9598dcae48fe9f2b342567d86"
+      },
+      "author": {
+        "name": "Dietrich Gebert",
+        "url": "https://github.com/DietrichGebert"
+      },
+      "homepage": "https://github.com/DietrichGebert/ponytail",
+      "repository": "https://github.com/DietrichGebert/ponytail",
+      "license": "MIT",
+      "category": "productivity",
+      "tags": ["third-party", "curated", "simplicity"]
+    }
+  ]
+}

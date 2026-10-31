@@ -1,0 +1,27 @@
+# Local Python artifacts
+__pycache__/
+*.py[cod]
+.venv/
+
+# Local OS/editor files
+.DS_Store
+.idea/
+.vscode/
+
+# Private configuration, credentials, and machine-local state
+.env
+.env.*
+!.env.example
+.claude/
+.claude-and/
+settings.local.json
+*.local.json
+credentials.json
+.credentials.json
+
+# Disposable installer targets, captures, and backups
+.tmp/
+tmp/
+backups/
+*.bak
+*.backup

@@ -1,0 +1,13 @@
+{
+  "repository": "DietrichGebert/ponytail",
+  "marketplace": "ponytail",
+  "plugin": "ponytail@ponytail",
+  "ref": "v5.3.2",
+  "revision": "16352ac229eb08a9598dcae48fe9f2b342567d86",
+  "knownInstalledRevision": "09c434ab73ca43761c5d8b0c5d341926c2fba710",
+  "version": "5.3.2",
+  "options": {
+    "ledger": true,
+    "sendNames": true
+  }
+}
