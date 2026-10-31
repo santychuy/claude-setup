@@ -2,6 +2,7 @@
 
 ## 2026-10-31
 
+- Make Ponytail's persistent band visibility portable through `config/.ponytail-band`, defaulting to `off`, with installer preview, backup, apply, and check support.
 - Add the `instructions` component to preview, back up, install, check, and capture personal `CLAUDE.md` independently of repository maintainer instructions.
 - Let `config/settings.json` define managed preference fields instead of a hardcoded Python allowlist. New settings work with preview, apply, check, and scoped capture without script changes.
 - Publish a macOS-first personal Claude Code baseline with reviewed Opus/UI preferences and an independent Context7 documentation rule.

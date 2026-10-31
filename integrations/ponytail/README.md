@@ -31,6 +31,21 @@ printf '%s\n' '{"ledger":"true","sendNames":"true"}' | claude plugin configure p
 
 `ledger=true` records local task-board rows under `~/.config/ponytail/band/`. `sendNames=true` permits task names in an optional webhook's payload; it does **not** configure a webhook. Webhook URLs/tokens, any existing webhook, and private task history must remain local. Do not infer that no data leaves the machine merely because this recipe does not set a URL.
 
+## Portable band visibility
+
+[`config/.ponytail-band`](../../config/.ponytail-band) contains `off`. The Ponytail setup copies it to the selected Claude directory, hiding Ponytail's interface band across sessions without disabling its coding guidance.
+
+```bash
+bash scripts/setup.sh plan --only ponytail
+bash scripts/setup.sh apply --only ponytail
+bash scripts/setup.sh check --only ponytail
+```
+
+The installer backs up any existing flag and checks that the installed value matches the repository. Set the repository file to `on` to show the band on future applies. In a running Claude session, `/ponytail band on` and `/ponytail band off` change it locally; this flag is not a `settings.json` option or a plugin `userConfig` field. Capture still excludes integration state: edit the repository flag directly.
+
+This preference belongs to the personal baseline. Installing the community catalog entry alone retains upstream defaults.
+
+
 ## Setup detection versus functional checks
 
 Read-only native detection:

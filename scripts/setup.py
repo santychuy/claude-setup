@@ -15,7 +15,11 @@ import tempfile
 ROOT = Path(__file__).resolve().parent.parent
 PARTS = ('preferences', 'instructions', 'rules', 'ponytail', 'moshi', 'herdr')
 RULE = Path('rules/context7.md')
-INSTRUCTION_FILES = {'instructions': Path('CLAUDE.md'), 'rules': RULE}
+MANAGED_FILES = {
+    'instructions': Path('CLAUDE.md'),
+    'rules': RULE,
+    'ponytail': Path('.ponytail-band'),
+}
 
 
 def load_json(path):
@@ -146,7 +150,7 @@ def preflight(target, parts):
 
 def backup(target, parts):
     paths = [Path('settings.json')]
-    paths.extend(relative for part, relative in INSTRUCTION_FILES.items() if part in parts)
+    paths.extend(relative for part, relative in MANAGED_FILES.items() if part in parts)
     if 'moshi' in parts:
         paths.append(Path('moshi-plugin'))
     if 'herdr' in parts:
@@ -184,6 +188,8 @@ def plan(target, parts):
         print(f'  Install standalone Context7 rule: {target / RULE} (requires Node.js/npx)')
     if 'ponytail' in parts:
         print('  Install upstream Ponytail from pinned marketplace revision; enable ledger and task names.')
+        visibility = (ROOT / 'config/.ponytail-band').read_text().strip()
+        print(f'  Set Ponytail band visibility: {visibility} (persists across sessions).')
     if 'moshi' in parts:
         print('  Run isolated Moshi Claude installer; omit visuals skill, preserve host pairing/settings.')
     if 'herdr' in parts:
@@ -200,7 +206,7 @@ def apply(target, parts):
     preflight(target, parts)
     # Validate JSON and nested settings before creating backups or invoking installers.
     desired_settings(load_json(target / 'settings.json'), parts)
-    files = [relative for part, relative in INSTRUCTION_FILES.items() if part in parts]
+    files = [relative for part, relative in MANAGED_FILES.items() if part in parts]
     # Read all sources before mutation, so a missing source cannot partially apply.
     contents = {relative: (ROOT / 'config' / relative).read_text() for relative in files}
     for relative in [Path('settings.json')] + files:
@@ -266,6 +272,9 @@ def check(target, parts):
         expected = load_json(ROOT / 'integrations/ponytail/manifest.json')['options']
         options = settings.get('pluginConfigs', {}).get('ponytail@ponytail', {}).get('options', {})
         report(all(options.get(key) == value for key, value in expected.items()), 'Ponytail options match')
+        band = target / '.ponytail-band'
+        report(band.is_file() and band.read_text().strip() == (ROOT / 'config/.ponytail-band').read_text().strip(),
+               'Ponytail band visibility matches')
     commands = hook_commands(settings)
     for part, marker in [('moshi', 'moshi-hook'), ('herdr', 'herdr-agent-state.sh')]:
         if part not in parts:
@@ -293,7 +302,7 @@ def capture(target, parts):
         if not source:
             raise ValueError('No owned preferences found to capture')
         outputs.append((ROOT / 'config/settings.json', json_text(source)))
-    for part, relative in INSTRUCTION_FILES.items():
+    for part, relative in MANAGED_FILES.items():
         if part in parts:
             outputs.append((ROOT / 'config' / relative, (target / relative).read_text()))
     for path, content in outputs:

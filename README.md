@@ -31,7 +31,7 @@ Use `--only` with any combination:
 | `preferences` | Model, appearance, attribution, and the built-in Concise output style |
 | `instructions` | General workflow guidance from [config/CLAUDE.md](config/CLAUDE.md), installed as `~/.claude/CLAUDE.md` |
 | `rules` | Context7: consult current documentation instead of relying on remembered APIs |
-| `ponytail` | Simplicity-first coding guidance |
+| `ponytail` | Simplicity-first coding guidance, with its interface band hidden by default |
 | `moshi` | Claude notifications, approvals, and Chat View integration |
 | `herdr` | Terminal workspace and Claude session integration |
 
