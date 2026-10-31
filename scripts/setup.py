@@ -14,10 +14,6 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parent.parent
 PARTS = ('preferences', 'rules', 'ponytail', 'moshi', 'herdr')
-PREFERENCE_PATHS = (
-    ('model',), ('theme',), ('tui',), ('skipDangerousModePermissionPrompt',),
-    ('modelSettings', 'claude-opus-5-5', 'effortLevel'),
-)
 RULE = Path('rules/context7.md')
 
 
@@ -48,9 +44,21 @@ def put(data, path, value):
     data[path[-1]] = copy.deepcopy(value)
 
 
+def preference_paths(settings=None, prefix=()):
+    if settings is None:
+        settings = load_json(ROOT / 'config/settings.json')
+    for key, value in settings.items():
+        path = prefix + (key,)
+        if isinstance(value, dict) and value:
+            yield from preference_paths(value, path)
+        else:
+            # Lists and explicitly empty objects are managed as whole values.
+            yield path
+
+
 def selected_preferences(data):
     result = {}
-    for path in PREFERENCE_PATHS:
+    for path in preference_paths():
         exists, value = get(data, path)
         if exists:
             put(result, path, value)
@@ -103,9 +111,7 @@ def desired_settings(current, parts):
     result = copy.deepcopy(current)
     if 'preferences' in parts:
         source = load_json(ROOT / 'config/settings.json')
-        if source != selected_preferences(source):
-            raise ValueError('config/settings.json contains non-allowlisted settings')
-        for path in PREFERENCE_PATHS:
+        for path in preference_paths(source):
             exists, value = get(source, path)
             if exists:
                 put(result, path, value)
@@ -167,7 +173,7 @@ def plan(target, parts):
     wanted = desired_settings(current, parts)
     print(f'Target: {target}\nSelected: {", ".join(parts)}')
     if 'preferences' in parts:
-        for path in PREFERENCE_PATHS:
+        for path in preference_paths():
             if get(wanted, path) != get(current, path):
                 print(f'  Set {".".join(path)} = {get(wanted, path)[1]!r}')
         if wanted.get('skipDangerousModePermissionPrompt'):

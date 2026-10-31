@@ -4,13 +4,13 @@ The repository is a reviewed portable baseline, not a backup of a Claude home di
 
 ## Change the baseline directly
 
-Edit the allowlisted preference values in `config/settings.json` or the Context7 policy in `config/rules/context7.md`. Review the behavior change, update affected documentation, and use `plan` before reapplying to a chosen profile. Removing a preference from the baseline is not permission to delete arbitrary user settings; describe any intentional ownership change explicitly.
+Edit or add preferences directly in `config/settings.json`, or edit the Context7 policy in `config/rules/context7.md`. The settings file defines the managed preference fields; no Python allowlist needs updating. Nested objects are merged by their declared leaf fields, preserving undeclared siblings. Arrays and explicitly empty objects are managed as whole values. Removing a field stops managing it; it does not delete the installed value. Review the change and use `plan` before applying it.
 
 For integration changes, inspect the linked upstream documentation and current commands before changing a recipe. Do not turn a known unsupported platform or profile-routing limitation into a silent fallback. Update the recipe and user-facing caveats together.
 
 ## Capture intentional personal changes
 
-Capture reads only portable preferences and the Context7 rule; it is **not** a full profile export. Its default selection is `preferences,rules`, and integration capture is rejected. The output updates the repository's `config/settings.json` and `config/rules/context7.md` for the selected components.
+Capture reads only preference fields already declared in `config/settings.json` and the Context7 rule; it is **not** a full profile export. Add a preference to the repository settings first if you want to capture its local value. Its default selection is `preferences,rules`, and integration capture is rejected. The output updates `config/settings.json` and `config/rules/context7.md` for the selected components.
 
 From the repository root, explicitly select the intended personal source if it is not the default:
 
@@ -23,7 +23,7 @@ Omit `--config-dir` only when you deliberately want to capture from the default 
 Before publishing captured changes:
 
 1. Inspect the exact diff of `config/`. Capture only exports owned preference keys; still review every value and every line of the rule for private paths, names, tokens, URLs containing credentials, and accidental instructions.
-2. Keep the portable source explicit. Do not widen the preference allowlist merely to make a full export pass.
+2. Declare only preferences you intend to publish in `config/settings.json`; never add private settings just to capture an entire profile.
 3. Confirm no integration caches, shared skills, downloaded apps, account state, or backup directories were added.
 4. Update documentation if the default behavior changed. A captured preference is a deliberate baseline change, not automatically suitable for everyone.
 5. Exercise the updated baseline in a disposable target using the [verification guide](verification.md), then submit a focused change.

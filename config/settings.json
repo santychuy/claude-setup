@@ -1,4 +1,5 @@
 {
+  "attribution": false,
   "model": "opus",
   "modelSettings": {
     "claude-opus-5-5": {
