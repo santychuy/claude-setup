@@ -25,3 +25,6 @@ tmp/
 backups/
 *.bak
 *.backup
+
+# Claude-generated local engine/tool declarations
+plugins/*/.claude-plugin/types/

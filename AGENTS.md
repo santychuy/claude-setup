@@ -21,3 +21,9 @@ Maintain a portable Claude Code setup and a community plugin/mod catalog. This f
 - Follow existing conventions and verify upstream integration commands. Attribute external work and preserve its licensing.
 - Ship working implementations, not placeholders. Update affected documentation when behavior changes.
 - Exercise changed behavior and report only observed results. Configuration detection is not end-to-end verification; follow [docs/verification.md](docs/verification.md).
+
+## Live testing
+
+- Use Herdr by default and load its available skill before operating it. If unavailable, use the multiplexer the user specifies or one available in the environment.
+- In the active tab, create test panes and launch `claude` or the user's specified alias. Exercise the changed behavior and inspect the actual interface.
+- Preserve existing panes, sessions, and user focus. Close only test panes you created, unless the user wants to keep them.

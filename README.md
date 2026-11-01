@@ -71,11 +71,12 @@ Install individual plugins without applying the personal setup:
 
 ```bash
 claude plugin marketplace add santychuy/claude-setup
-claude plugin install ponytail@claude-setup
+claude plugin install usage-meter@claude-setup
 ```
 
 | Plugin | Description |
 | --- | --- |
+| [Usage Meter](plugins/usage-meter/README.md) | Vertical account usage limits at the footer's right edge; supports weekly-only accounts |
 | [Ponytail](https://github.com/DietrichGebert/ponytail) | Simplicity-first coding guidance by Dietrich Gebert |
 
 Choose either this Ponytail installation or the full setup's upstream route, not both.

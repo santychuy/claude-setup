@@ -2,6 +2,7 @@
 
 ## 2026-10-31
 
+- Add Usage Meter, a standalone TypeScript mod showing remaining account allowance vertically at the footer's right edge, with weekly-only support, native measurement updates, and expiry-safe display. Register it in the community marketplace.
 - Make Ponytail's persistent band visibility portable through `config/.ponytail-band`, defaulting to `off`, with installer preview, backup, apply, and check support.
 - Add the `instructions` component to preview, back up, install, check, and capture personal `CLAUDE.md` independently of repository maintainer instructions.
 - Let `config/settings.json` define managed preference fields instead of a hardcoded Python allowlist. New settings work with preview, apply, check, and scoped capture without script changes.

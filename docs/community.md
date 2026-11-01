@@ -7,7 +7,18 @@ This repository serves two different audiences:
 
 The table-first catalog presentation is inspired by [midudev/better-claude](https://github.com/midudev/better-claude). No better-claude plugin code is copied here. No shared skills are copied or installed.
 
-## Current catalog: curated third-party Ponytail
+## Usage Meter
+
+[Usage Meter](../plugins/usage-meter/README.md) is this repository's TypeScript mod. It shows available subscription windows vertically at the footer's right edge, including weekly-only accounts.
+
+```bash
+claude plugin marketplace add santychuy/claude-setup
+claude plugin install usage-meter@claude-setup --scope user
+```
+
+It is independent of the personal baseline and the Ponytail entry. It uses native session usage, not credentials, scraped account endpoints, or model requests. See its README for local development and availability limits.
+
+## Curated third-party Ponytail
 
 Ponytail is external upstream software, not a plugin authored by Santychuy. The catalog points to its upstream GitHub repository at a pinned commit; it does not vendor or relicense that code. See [the catalog](../.claude-plugin/marketplace.json) for the exact source and pin and [integration notes](integrations.md) for attribution and prerequisites.
 
@@ -47,7 +58,7 @@ To update a pin, inspect the upstream diff and license, confirm the plugin manif
 
 Open an issue or pull request with the user-visible behavior, platform requirements, permissions, and upstream references. Keep baseline preferences and optional plugins independent. Do not submit a placeholder plugin, unrelated shared skills, or an unrequested integration.
 
-When an original plugin is requested, use this layout:
+Follow the existing Usage Meter layout for an original plugin:
 
 ```text
 plugins/<name>/
@@ -58,7 +69,7 @@ plugins/<name>/
 
 Only the manifest belongs inside `.claude-plugin/`; hooks and implementation files belong under the plugin root. Declare a matching kebab-case name, version, description, author, and license in the manifest. Use paths relative to the plugin root, and `${CLAUDE_PLUGIN_ROOT}` for runtime hook paths rather than a developer's absolute paths. Add a catalog entry with `"source": "./plugins/<name>"`, resolved from the repository root. Follow the official [plugin manifest reference](https://code.claude.com/docs/en/plugins/manifest-reference) and [hook reference](https://code.claude.com/docs/en/hooks).
 
-Include concise usage, supported platforms, failure behavior, and real functional verification steps. Validate the plugin and marketplace and exercise the actual behavior in an isolated configuration before publishing; do not report those checks as passed unless they ran. There is deliberately no `plugins/` scaffold or original plugin in the current catalog.
+Include concise usage, supported platforms, failure behavior, and real functional verification steps. Validate the plugin and marketplace and exercise the actual behavior before publishing; do not report checks as passed unless they ran. For account-dependent UI, distinguish real session verification from unavailable account states covered in the native test suite.
 
 ## License and attribution
 

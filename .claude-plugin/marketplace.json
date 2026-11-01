@@ -1,11 +1,24 @@
 {
   "name": "claude-setup",
-  "description": "Santychuy's curated third-party Claude Code catalog; independent of the personal baseline installer.",
+  "description": "Claude Code plugins and mods, plus Santychuy's portable personal setup.",
   "owner": {
     "name": "Santychuy",
     "url": "https://github.com/santychuy"
   },
   "plugins": [
+    {
+      "name": "usage-meter",
+      "source": "./plugins/usage-meter",
+      "description": "Minimal vertical subscription usage limits at the right edge of the footer.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Santychuy",
+        "url": "https://github.com/santychuy"
+      },
+      "license": "MIT",
+      "category": "productivity",
+      "tags": ["mod", "usage", "footer"]
+    },
     {
       "name": "ponytail",
       "description": "Third-party Ponytail by Dietrich Gebert: simplicity-first coding guidance and task feedback. Curated upstream reference, not authored here.",

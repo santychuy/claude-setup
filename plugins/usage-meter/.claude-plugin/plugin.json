@@ -1,0 +1,12 @@
+{
+  "name": "usage-meter",
+  "version": "0.1.0",
+  "description": "Minimal vertical account usage limits at the right edge of the Claude Code footer.",
+  "author": {
+    "name": "Santychuy",
+    "url": "https://github.com/santychuy"
+  },
+  "homepage": "https://github.com/santychuy/claude-setup/tree/main/plugins/usage-meter",
+  "repository": "https://github.com/santychuy/claude-setup",
+  "license": "MIT"
+}
