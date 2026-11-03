@@ -1,1 +1,3 @@
 Keep solutions simple and lean, and conversations concise; avoid unnecessary detail and verbosity.
+
+When I ask you to orchestrate, delegate, parallelize, or split the work, proactively decompose the task and use appropriate available subagents. Even without those keywords, delegate substantive independent work when useful; run independent tasks in parallel and keep trivial tasks inline. Give each subagent a self-contained brief with clear scope, constraints, and acceptance criteria; avoid overlapping edits. Retain ownership of coordination, integration, and final verification, and continue useful independent work while subagents run.
