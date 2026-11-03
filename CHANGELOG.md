@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-02
+
+- Add a user-level librarian subagent: Haiku, low effort, Read/Bash only, fresh instruction context, and preloaded external `find-docs` skill. Require Context7 documentation research to be delegated with self-contained briefs and independent questions run in parallel.
+- Add the `agents` component for scoped preview, backup, apply, check, and capture of the librarian definition. Require the external skill without copying shared skill content into this repository.
+
 ## 2026-10-31
 
 - Add Usage Meter, a standalone TypeScript mod showing remaining account allowance vertically at the footer's right edge, with weekly-only support, native measurement updates, and expiry-safe display. Register it in the community marketplace.

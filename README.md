@@ -4,9 +4,9 @@ My portable [Claude Code](https://code.claude.com/docs) setup and a catalog of p
 
 ## Quick start
 
-The full setup includes personal preferences and instructions, a Context7 documentation rule, Ponytail, Moshi, and Herdr. Currently macOS-first.
+The full setup includes personal preferences and instructions, a Context7 documentation rule and librarian subagent, Ponytail, Moshi, and Herdr. Currently macOS-first.
 
-Install Git, Bash, Python 3, Claude Code, and Node.js/npm. Follow the [integration prerequisites](docs/integrations.md) for Moshi and Herdr.
+Install Git, Bash, Python 3, Claude Code, and Node.js/npm. Make the external `find-docs` skill available at `~/.claude/skills/find-docs/SKILL.md`; shared skills are not installed by this repository. Follow the [integration prerequisites](docs/integrations.md) for Moshi and Herdr.
 
 ```bash
 git clone https://github.com/santychuy/claude-setup.git
@@ -30,17 +30,18 @@ Use `--only` with any combination:
 | --- | --- |
 | `preferences` | Model, appearance, attribution, and the built-in Concise output style |
 | `instructions` | General workflow guidance from [config/CLAUDE.md](config/CLAUDE.md), installed as `~/.claude/CLAUDE.md` |
-| `rules` | Context7: consult current documentation instead of relying on remembered APIs |
+| `rules` | Require delegation of technology-specific documentation research to `librarian` |
+| `agents` | Haiku librarian: low effort, Read/Bash only, preloaded external `find-docs`, no inherited CLAUDE.md |
 | `ponytail` | Simplicity-first coding guidance, with its interface band hidden by default |
 | `moshi` | Claude notifications, approvals, and Chat View integration |
 | `herdr` | Terminal workspace and Claude session integration |
 
-For example, install only preferences and rules:
+For example, install preferences and documentation research (requires the external `find-docs` skill):
 
 ```bash
-bash scripts/setup.sh plan --only preferences,rules
-bash scripts/setup.sh apply --only preferences,rules
-bash scripts/setup.sh check --only preferences,rules
+bash scripts/setup.sh plan --only preferences,rules,agents
+bash scripts/setup.sh apply --only preferences,rules,agents
+bash scripts/setup.sh check --only preferences,rules,agents
 ```
 
 Use `--config-dir PATH` to choose another installation directory. See the [CLI reference](docs/setup.md) for details.
@@ -63,7 +64,7 @@ Guide me through any sign-in, pairing, and manual functional checks.
 Report what was verified and what still needs my action.
 ```
 
-For a smaller setup, add your selection to the prompt—for example, “Install only `preferences,rules`.”
+For a smaller setup, add your selection to the prompt—for example, “Install only `preferences,rules,agents`.”
 
 ## Community plugins and mods
 

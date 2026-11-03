@@ -8,16 +8,18 @@ Edit or add preferences directly in `config/settings.json`, or edit the Context7
 
 Edit `config/CLAUDE.md` for general workflow instructions. Use `--only instructions` with `plan`, `apply`, `check`, or `capture`. Applying replaces the installed personal instruction file after backing it up.
 
+Edit `config/agents/librarian.md` for the documentation research agent; `--only agents` supports preview, backup, apply, check, and capture of that file only. Keep its Context7 policy consistent with `config/rules/context7.md`: `omitClaudeMd: true` means the standing rule is not its startup context. The external `find-docs` skill remains maintained outside this repository.
+
 For integration changes, inspect the linked upstream documentation and current commands before changing a recipe. Do not turn a known unsupported platform or profile-routing limitation into a silent fallback. Update the recipe and user-facing caveats together.
 
 ## Capture intentional personal changes
 
-Capture reads only preference fields declared in `config/settings.json`, personal instructions from the target's `CLAUDE.md`, and the Context7 rule; it is **not** a full profile export. Add a preference to the repository settings first if you want to capture its local value. The default selection is `preferences,instructions,rules`; integration capture is rejected. Outputs update the corresponding files in `config/`.
+Capture reads only preference fields declared in `config/settings.json`, personal instructions from the target's `CLAUDE.md`, the Context7 rule, and `agents/librarian.md`; it is **not** a full profile export. Add a preference to the repository settings first if you want to capture its local value. The default selection is `preferences,instructions,rules,agents`; integration capture is rejected. Outputs update the corresponding files in `config/`. Other agents and shared skills are never captured.
 
 From the repository root, explicitly select the intended personal source if it is not the default:
 
 ```bash
-bash scripts/setup.sh capture --only preferences,rules --config-dir "$HOME/.claude"
+bash scripts/setup.sh capture --only preferences,rules,agents --config-dir "$HOME/.claude"
 ```
 
 Omit `--config-dir` only when you deliberately want to capture from the default personal `~/.claude` profile. The work profile `~/.claude-and` remains refused. Do not copy a profile into the repository to make capture easier.

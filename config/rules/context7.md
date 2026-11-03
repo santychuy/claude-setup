@@ -1,10 +1,14 @@
 # Current documentation policy
 
-This is a standing Claude Code rule, not a shared skill. Its intention is to ground technology-specific answers in current documentation rather than remembered APIs. It works independently of the optional shared skills repository; do not copy or install skills to satisfy this rule.
+This standing user-level rule requires current documentation independently of project scope. Delegate research to the `librarian` subagent; do not fetch documentation in the main conversation or answer from remembered APIs.
 
-Use the `ctx7` CLI to fetch current documentation whenever the user asks about a library, framework, SDK, API, CLI tool, or cloud service — even well-known ones like React, Next.js, Prisma, Express, Tailwind, Django, or Spring Boot. This includes API syntax, configuration, version migration, library-specific debugging, setup instructions, and CLI tool usage. Use even when you think you know the answer — your training data may not reflect recent changes. Prefer this over web search for library docs.
+Always spawn `librarian` when an answer or implementation depends on a specific technology, library, framework, SDK, API, CLI tool, or cloud service, including popular and familiar ones. Triggers include API syntax and behavior, configuration, setup, CLI commands, version migration, integrations, and technology-specific debugging. A name mentioned incidentally without a documentation need does not trigger research. General programming concepts, business logic, and purely structural refactoring or code review do not require research unless they depend on technology-specific behavior.
 
-Do not use for: refactoring, writing scripts from scratch, debugging business logic, code review, or general programming concepts.
+Give the librarian a self-contained brief: exact documentation questions, official technology names, known versions (or explicitly unknown), relevant environment and constraints, and requested findings/examples. Pass only necessary context, never secrets; it does not inherit conversation history or CLAUDE.md instructions. Preserve its configured Haiku model and low effort.
+
+Spawn independent documentation questions in parallel and continue unrelated work while they run. Wait for the relevant findings before making documentation-dependent claims or changes. Do not duplicate the librarian's research in the main conversation. If the agent or its `find-docs` skill is unavailable, report the missing prerequisite rather than silently bypassing delegation.
+
+The librarian uses only the Context7 CLI through Bash, with Read for explicitly supplied local context. Its preloaded external `find-docs` skill provides the CLI procedure; this repository does not copy or install shared skills. The following policy must remain consistent with the librarian's system prompt because it starts with `omitClaudeMd: true`.
 
 ## Steps
 

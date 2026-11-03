@@ -13,11 +13,13 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parent.parent
-PARTS = ('preferences', 'instructions', 'rules', 'ponytail', 'moshi', 'herdr')
+PARTS = ('preferences', 'instructions', 'rules', 'agents', 'ponytail', 'moshi', 'herdr')
 RULE = Path('rules/context7.md')
+LIBRARIAN = Path('agents/librarian.md')
 MANAGED_FILES = {
     'instructions': Path('CLAUDE.md'),
     'rules': RULE,
+    'agents': LIBRARIAN,
     'ponytail': Path('.ponytail-band'),
 }
 
@@ -130,7 +132,7 @@ def desired_settings(current, parts):
 
 def preflight(target, parts):
     needed = []
-    if 'rules' in parts:
+    if 'rules' in parts or 'agents' in parts:
         needed.append('npx')
     if 'ponytail' in parts:
         needed.extend(('claude', 'git', 'node'))
@@ -142,6 +144,13 @@ def preflight(target, parts):
     if missing:
         raise ValueError('Missing prerequisites: ' + ', '.join(missing)
                          + '. See integrations/*/README.md and README.md before applying.')
+    if 'rules' in parts and 'agents' not in parts and not (target / LIBRARIAN).is_file():
+        raise ValueError('The Context7 rule requires librarian. Include --only rules,agents.')
+    if 'agents' in parts or 'rules' in parts:
+        if not (target / 'skills/find-docs/SKILL.md').is_file():
+            raise ValueError('Missing external find-docs skill: make it available at '
+                             + str(target / 'skills/find-docs/SKILL.md')
+                             + '. Shared skills are not installed by this repository.')
     if 'ponytail' in parts:
         settings = load_json(target / 'settings.json')
         if settings.get('enabledPlugins', {}).get('ponytail@claude-setup'):
@@ -185,7 +194,10 @@ def plan(target, parts):
     if 'instructions' in parts:
         print(f'  Install personal instructions: {target / "CLAUDE.md"}')
     if 'rules' in parts:
-        print(f'  Install standalone Context7 rule: {target / RULE} (requires Node.js/npx)')
+        print(f'  Install Context7 delegation rule: {target / RULE} (requires librarian)')
+    if 'agents' in parts:
+        print(f'  Install librarian: {target / LIBRARIAN} (Haiku, low effort, Read/Bash only)')
+        print(f'  Requires external skill: {target / "skills/find-docs/SKILL.md"} and Node.js/npx')
     if 'ponytail' in parts:
         print('  Install upstream Ponytail from pinned marketplace revision; enable ledger and task names.')
         visibility = (ROOT / 'config/.ponytail-band').read_text().strip()
@@ -258,6 +270,14 @@ def check(target, parts):
     if 'rules' in parts:
         report((target / RULE).is_file() and (target / RULE).read_bytes() == (ROOT / 'config' / RULE).read_bytes(), 'Context7 rule matches')
         report(shutil.which('npx') is not None, 'npx is available for Context7')
+        report('agents' in parts or (target / LIBRARIAN).is_file(), 'librarian is selected or installed')
+    if 'agents' in parts:
+        report((target / LIBRARIAN).is_file()
+               and (target / LIBRARIAN).read_bytes() == (ROOT / 'config' / LIBRARIAN).read_bytes(),
+               'librarian agent matches')
+        report(shutil.which('npx') is not None, 'npx is available for librarian')
+    if 'agents' in parts or 'rules' in parts:
+        report((target / 'skills/find-docs/SKILL.md').is_file(), 'external find-docs skill is available')
     if 'ponytail' in parts:
         installed = load_json(target / 'plugins/installed_plugins.json')
         entries = installed.get('plugins', {}).get('ponytail@ponytail', [])
@@ -294,8 +314,8 @@ def check(target, parts):
 
 
 def capture(target, parts):
-    if set(parts) - {'preferences', 'instructions', 'rules'}:
-        raise ValueError('Capture supports only preferences,instructions,rules; never exports app-generated integrations.')
+    if set(parts) - {'preferences', 'instructions', 'rules', 'agents'}:
+        raise ValueError('Capture supports only preferences,instructions,rules,agents; never exports app-generated integrations.')
     outputs = []
     if 'preferences' in parts:
         source = selected_preferences(load_json(target / 'settings.json'))
@@ -317,7 +337,7 @@ def main():
     parser.add_argument('--config-dir', type=Path, default=Path.home() / '.claude',
                         help='Explicit personal target; defaults to ~/.claude, not CLAUDE_CONFIG_DIR')
     args = parser.parse_args()
-    parts = args.only.split(',') if args.only else list(('preferences', 'instructions', 'rules') if args.action == 'capture' else PARTS)
+    parts = args.only.split(',') if args.only else list(('preferences', 'instructions', 'rules', 'agents') if args.action == 'capture' else PARTS)
     if not parts or any(part not in PARTS for part in parts) or len(parts) != len(set(parts)):
         parser.error('--only must contain unique supported component names')
     target = args.config_dir.expanduser().absolute()
