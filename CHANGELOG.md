@@ -2,6 +2,7 @@
 
 ## 2026-11-02
 
+- Add the Commit plugin: a native three-choice `/commit` picker delegating atomic Conventional Commit workflows to one bundled committer, with explicit commit-only, current-branch push, and new-branch push modes.
 - Add a user-level librarian subagent: Haiku, low effort, Read/Bash only, fresh instruction context, and preloaded external `find-docs` skill. Require Context7 documentation research to be delegated with self-contained briefs and independent questions run in parallel.
 - Add the `agents` component for scoped preview, backup, apply, check, and capture of the librarian definition. Require the external skill without copying shared skill content into this repository.
 

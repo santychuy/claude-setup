@@ -7,6 +7,19 @@
   },
   "plugins": [
     {
+      "name": "commit",
+      "source": "./plugins/commit",
+      "description": "Choose commit-only, push, or new-branch push workflows with atomic Conventional Commits.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Santychuy",
+        "url": "https://github.com/santychuy"
+      },
+      "license": "MIT",
+      "category": "productivity",
+      "tags": ["mod", "git", "commit"]
+    },
+    {
       "name": "usage-meter",
       "source": "./plugins/usage-meter",
       "description": "Minimal vertical subscription usage limits at the right edge of the footer.",

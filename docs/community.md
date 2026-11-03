@@ -18,6 +18,16 @@ claude plugin install usage-meter@claude-setup --scope user
 
 It is independent of the personal baseline and the Ponytail entry. It uses native session usage, not credentials, scraped account endpoints, or model requests. See its README for local development and availability limits.
 
+## Commit
+
+[Commit](../plugins/commit/README.md) adds a native `/commit` picker: commit and push on a new branch (default), commit and push on the current branch, or commit only. One bundled committer owns inspection, atomic grouping, staging, checks, commits, and any selected ordinary push.
+
+```bash
+claude plugin install commit@claude-setup --scope user
+```
+
+It adapts the supplied commit skill without depending on an external shared skill. The picker grants only the selected workflow; ambiguous grouping/destinations and unsafe repository states require clarification. It does not bypass permissions, alter remotes, rewrite history, or force-push. While loaded, its attribution hook removes the default commit-trailer instruction to honor the skill's no-unsolicited-attribution policy; explicit user attribution remains allowed. See the plugin README for collision behavior, failure handling, and disposable-repository verification.
+
 ## Curated third-party Ponytail
 
 Ponytail is external upstream software, not a plugin authored by Santychuy. The catalog points to its upstream GitHub repository at a pinned commit; it does not vendor or relicense that code. See [the catalog](../.claude-plugin/marketplace.json) for the exact source and pin and [integration notes](integrations.md) for attribution and prerequisites.
