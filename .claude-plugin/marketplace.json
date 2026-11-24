@@ -17,7 +17,11 @@
       },
       "license": "MIT",
       "category": "productivity",
-      "tags": ["mod", "git", "commit"]
+      "tags": [
+        "mod",
+        "git",
+        "commit"
+      ]
     },
     {
       "name": "usage-meter",
@@ -30,7 +34,28 @@
       },
       "license": "MIT",
       "category": "productivity",
-      "tags": ["mod", "usage", "footer"]
+      "tags": [
+        "mod",
+        "usage",
+        "footer"
+      ]
+    },
+    {
+      "name": "image-preview",
+      "source": "./plugins/image-preview",
+      "description": "Hold Option and hover a PNG or JPEG path in a Claude reply for a mini preview in the terminal.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Santychuy",
+        "url": "https://github.com/santychuy"
+      },
+      "license": "MIT",
+      "category": "productivity",
+      "tags": [
+        "mod",
+        "image",
+        "preview"
+      ]
     },
     {
       "name": "ponytail",
@@ -48,7 +73,11 @@
       "repository": "https://github.com/DietrichGebert/ponytail",
       "license": "MIT",
       "category": "productivity",
-      "tags": ["third-party", "curated", "simplicity"]
+      "tags": [
+        "third-party",
+        "curated",
+        "simplicity"
+      ]
     }
   ]
 }

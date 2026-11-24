@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-23
+
+- Add Image Preview, a TypeScript mod. Hold Option and hover a PNG or JPEG path in a reply to float a mini Kitty-graphics preview card; JPEGs are converted with `sips` or ImageMagick. Document the `CLAUDE_CODE_FORCE_TERMINAL_IMAGES=1` override for Rex.
+
 ## 2026-11-02
 
 - Add proactive delegation guidance to personal instructions: recognize explicit orchestration requests, parallelize independent work with available subagents, and retain integration and verification ownership.

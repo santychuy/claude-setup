@@ -1,0 +1,13 @@
+{
+  "name": "image-preview",
+  "version": "0.1.0",
+  "description": "Hold Option and hover a PNG or JPEG path in a Claude reply for a mini preview in the terminal.",
+  "author": {
+    "name": "Santychuy",
+    "url": "https://github.com/santychuy"
+  },
+  "homepage": "https://github.com/santychuy/claude-setup/tree/main/plugins/image-preview",
+  "repository": "https://github.com/santychuy/claude-setup",
+  "license": "MIT",
+  "types": "./types/index.d.ts"
+}

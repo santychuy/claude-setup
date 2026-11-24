@@ -18,6 +18,14 @@ claude plugin install usage-meter@claude-setup --scope user
 
 It is independent of the personal baseline and the Ponytail entry. It uses native session usage, not credentials, scraped account endpoints, or model requests. See its README for local development and availability limits.
 
+## Image Preview
+
+[Image Preview](../plugins/image-preview/README.md) shows a mini preview card while you hold Option and hover a PNG or JPEG path in Claude's replies; Cmd-click still opens the file in your default app. It needs the fullscreen UI and a Kitty-graphics terminal. On Rex, set `CLAUDE_CODE_FORCE_TERMINAL_IMAGES=1`.
+
+```bash
+claude plugin install image-preview@claude-setup --scope user
+```
+
 ## Commit
 
 [Commit](../plugins/commit/README.md) adds a native `/commit` picker: commit and push on a new branch (default), commit and push on the current branch, or commit only. One bundled committer owns inspection, atomic grouping, staging, checks, commits, and any selected ordinary push.

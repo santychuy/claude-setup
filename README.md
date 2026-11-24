@@ -87,6 +87,7 @@ claude plugin install usage-meter@claude-setup
 | Plugin | Description |
 | --- | --- |
 | [Usage Meter](plugins/usage-meter/README.md) | Vertical account usage limits at the footer's right edge; supports weekly-only accounts |
+| [Image Preview](plugins/image-preview/README.md) | Hold Option and hover a PNG/JPEG path in a reply for a mini preview card in the terminal |
 | [Commit](plugins/commit/README.md) | Three-choice `/commit` picker with atomic Conventional Commits, optional push, and new-branch push |
 | [Ponytail](https://github.com/DietrichGebert/ponytail) | Simplicity-first coding guidance by Dietrich Gebert |
 
